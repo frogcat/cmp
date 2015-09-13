@@ -6,7 +6,8 @@ cross browser version of https://github.com/gsi-cyberjapan/cmp
 ## Point
 
 * jquery-ui slider を使うことで、input[type=range] のブラウザ依存性を回避
-* clip を使わないことで、IE に対応
+* clip を使わないことで、IE に対応 ＞ leaflet-tilelayer-mask ベースに移行
+
 
 ## Known issues
 

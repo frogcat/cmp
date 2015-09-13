@@ -46,5 +46,9 @@ $(function() {
 	});
 
 	$("#slave").css("width", "50%");
+	
+	$(window).on("resize", function() {
+		location.reload();
+	});
 
 });

@@ -5,19 +5,19 @@
 <title>比較</title>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-<link rel="stylesheet" href="cmp.css" />
+<link rel="stylesheet" href="cmp-ltm.css" />
 <script src="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="//handygeospatial.github.io/mapsites/js/leaflet-hash.js"></script>
-<script src="cmp.js"></script>
+<script src="//frogcat.github.io/leaflet-tilelayer-mask/leaflet-tilelayer-mask.js"></script>
+<script src="cmp-ltm.js"></script>
 </head>
 <body>
 	<footer>
 		<div id="slider"></div>
 	</footer>
-	<div id="master"></div>
-	<div id="slave"></div>
+	<div id="map"></div>
 	<script>
 		var BG_URL = 'http://cyberjapandata.gsi.go.jp/xyz/ort/{z}/{x}/{y}.jpg';
 		var FG_URL = 'http://cyberjapandata.gsi.go.jp/xyz/20150911dol2/{z}/{x}/{y}.png';

@@ -3,15 +3,114 @@
 <head>
 <meta charset="utf-8">
 <title>比較</title>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-<link rel="stylesheet" href="cmp-ltm.css" />
-<script src="//cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="//handygeospatial.github.io/mapsites/js/leaflet-hash.js"></script>
-<script src="//frogcat.github.io/leaflet-tilelayer-mask/leaflet-tilelayer-mask.js"></script>
-<script src="cmp-ltm.js"></script>
+<style>
+body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background: #444;
+}
+
+#map {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	bottom: 40px;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: auto;
+}
+
+#slider {
+	margin: 10px 20px;
+}
+</style>
+<script>
+	$(function() {
+		var bg = L.tileLayer(BG_URL, {
+			attribution : "国土地理院",
+			maxNativeZoom : 18,
+			maxZoom : 20
+		});
+
+		var fg = L.tileLayer(FG_URL, {
+			attribution : "国土地理院",
+			maxNativeZoom : 18,
+			maxZoom : 20
+		});
+
+		var opt = L.extend({
+			zoom : 16,
+			minZoom : 10,
+			zoomControl : false,
+			attributionControl : false,
+			layers : [ bg, fg ],
+			inertia : false
+		}, L.Hash.parseHash(location.hash) || {
+			zoom : 16,
+			center : [ LAT, LNG ]
+		});
+
+		var map = L.map("map", opt);
+
+		L.control.attribution({
+			position : 'bottomright',
+			prefix : "<a target='cmp_usage' href='http://gsi-cyberjapan.github.io/cmp/op.png'>使い方</a>"
+		}).addTo(map);
+
+		L.control.zoom({
+			position : 'bottomright'
+		}).addTo(map);
+
+		new L.Hash(map);
+
+		var slider = $("#slider").slider({
+			"value" : 50,
+			"slide" : function(event, ui) {
+				map.fire("move");
+			}
+		});
+
+		var container = $(fg.getContainer());
+		var children = container.children();
+
+		container.css({
+			"overflow" : "hidden",
+			"border-right" : "1px solid lime"
+		});
+
+		map.on("move", function() {
+			var w = window.innerWidth * (parseFloat(slider.slider("value")) / 100);
+			var h = window.innerHeight;
+			var p = map.containerPointToLayerPoint([ 0, 0 ]);
+			// set container bounds
+			container.css({
+				top : p.y,
+				left : p.x,
+				width : w,
+				height : h
+			});
+			// add negative offset to children
+			children.css({
+				"margin-top" : -p.y + "px",
+				"margin-left" : -p.x + "px"
+			});
+		}).fire("move");
+
+	});
+</script>
 </head>
 <body>
 	<footer>
